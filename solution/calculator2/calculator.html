@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<head>
+    <title>CALCULATOR></title>
+</head>
+<style>
+    body {
+        background: linear-gradient(rgb(130, 123, 123), rgb(255, 255, 255));
+        background-repeat: repeat-x;
+        user-select: none;
+    }
+
+    .container {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 4px;
+        background-color: darkgray;
+        border-radius: 5px;
+        max-width: 350px;
+        padding-bottom: 100px;
+        padding: 10px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .item {
+        text-align: center;
+        background-color: gray;
+        color: whitesmoke;
+        padding: 15px;
+        justify-content: center;
+        align-items: center;
+        font-size: 23px;
+        cursor: pointer;
+        font-weight: bold;
+        
+    }
+
+    form {
+        width: 100%;
+        border: 1px;
+    }
+
+    input {
+        width: 100%;
+        height: 60px;
+        border: none;
+        font-size: 30px;
+        text-align: right;
+        outline: none;
+    }
+
+    .input {
+        grid-column: 1/-1;
+        padding: 0
+    }
+
+    .clear {
+        grid-column: 1/3;
+        background-color: rgb(99, 99, 99);
+    }
+
+    .back {
+        grid-column: 3/-1;
+        background-color: rgb(99, 99, 99);
+    }
+
+    .equal {
+        grid-column: 4;
+        grid-row: 6/8;
+        text-align: center;
+
+    }
+
+    .zero {
+        grid-column: 1/3;
+    }
+</style>
+
+<body>
+
+    <div class="container">
+
+        <div class="item input">
+            <form name="form">
+                <input type="text" name="metka">
+            </form>
+        </div>
+        <div class="item clear" onclick="clean()">C</div>
+        <div class="item back" onclick="back()">&larr;</div>
+        <div class="item" onclick="insert('+')">+</div>
+        <div class="item" onclick="insert('-')">-</div>
+        <div class="item" onclick="insert('*')">&times;</div>
+        <div class="item" onclick="insert('/')">&divide;</div>
+        <div class="item" onclick="insert('7')">7</div>
+        <div class="item" onclick="insert('8')">8</div>
+        <div class="item" onclick="insert('9')">9</div>
+        <div class="item" onclick="insert(')')">)</div>
+        <div class="item" onclick="insert('4')">4</div>
+        <div class="item" onclick="insert('5')">5</div>
+        <div class="item" onclick="insert('6')">6</div>
+        <div class="item" onclick="insert('(')">(</div>
+        <div class="item" onclick="insert('1')">1</div>
+        <div class="item" onclick="insert('2')">2</div>
+        <div class="item" onclick="insert('3')">3</div>
+        <div class="item equal" onclick="equal()">=</div>
+        <div class="item zero" onclick="insert('0')">0</div>
+        <div class="item" onclick="insert('.')">.</div>
+    </div>
+    <script>
+        function insert(lable) {
+            document.form.metka.value = document.form.metka.value + lable;
+        }
+
+        function clean() {
+            document.form.metka.value = "";
+        }
+
+        function back() {
+            var exp = document.form.metka.value;
+            document.form.metka.value = exp.substring(0, exp.length - 1);
+        }
+
+        function equal() {
+            var exp = document.form.metka.value;
+            if (exp != '') {
+                document.form.metka.value = eval(exp);
+            }
+        }
+    </script>
+</body>
+
+</html>

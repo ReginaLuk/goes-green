@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Libre+Baskerville&family=Poppins:wght@600;900&family=Rubik&display=swap');
+body {
+    background-color: #1e1c2a;
+  }
+  
+  h1 {
+    font-family: 'Libre Baskerville', serif;
+    color: white;
+  }
+  
+  img {
+    width: 350;
+    height: 200;
+  }
+  
+  .contain {
+    width: 50%;
+    margin-top: 100px;
+    margin-left: 25%;
+    text-align: center;
+    color: black;
+  }
+
+  a{
+    color:whitesmoke;
+    font-family: 'Poppins', serif;
+    text-decoration: none;
+    font-size: 3rem;
+
+  }
+.container {
+ 
+  border: 10px solid;
+}
+.container a{
+  padding-left: 250px;
+}
+    

@@ -1,0 +1,275 @@
+(function() {
+    function inIframe () {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function message(command, value) {
+        if (!inIframe()) return false;
+        if (!window.top.postMessage) return false;
+
+        window.top.postMessage({
+            command: command,
+            value: value
+        }, '*');
+
+        return true;
+    }
+
+    this.setHeight = function(height) {
+        return message('setHeight', height);
+    };
+
+    this.setHeightAuto = function() {
+        var body = document.body,
+            html = document.documentElement;
+
+        var height = Math.max( body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+        return message('setHeight', height);
+    };
+
+    this.scrollTop = function() {
+        return message('scrollTop', false);
+    };
+
+    this.scrollTo = function(offset) {
+        return message('scrollTo', offset);
+    };
+
+    window.MFAPP = this;
+})();
+
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+function calc_val(name) {
+    var field = $('.wcalc-'+name).not('.ignore');
+    if (field.is('input[type=checkbox]') && !field.is(':checked')) return 0;
+    if (field.is('input')) var val = field.val();
+    else if (field.is('select')) var val = field.val();
+    else var val = field.data('value');
+    var num = parseFloat(val);
+    if (isNaN(num)) return 0;
+    if (num > 1000000) return 1000000;
+    return num;
+}
+
+function calc_put(data) {
+    //var wrapper = $('.wrapper').detach();
+    $.each(data, function(field,value_orig) {
+        if (field == 'nmin') return true;
+        var els = $('.wcalc-'+field).not('.noupdate');
+        els.each(function(k,el){
+            var value = value_orig;
+            el = $(el);
+            if (el.is('input[type=checkbox]')) {
+                if (value == 1) el.prop('checked', 'checked');
+                else el.prop('checked', false);
+                return true;
+            }
+            if (el.data('convert')) value = round(value * calc_val('currency_'+el.data('convert')));
+            if (el.is('input')) el.val(value);
+            else if (el.is('select')) {
+                el.val(value);
+            }
+            else el.html(value);
+        });
+    });
+    //$('body').prepend(wrapper);
+}
+
+function round(num, precision) {
+    if (typeof precision == 'undefined') precision = 2;
+    return Math.round(num,precision);
+}
+
+var _round = Math.round;
+Math.round = function(number, decimals /* optional, default 0 */){
+    if (arguments.length == 1)
+        return _round(number);
+
+    multiplier = Math.pow(10, decimals);
+    return _round(number * multiplier) / multiplier;
+};
+
+function number_format(number, decimals, dec_point, thousands_sep) {
+    //  discuss at: http://phpjs.org/functions/number_format/
+    // original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+    // improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // improved by: davook
+    // improved by: Brett Zamir (http://brett-zamir.me)
+    // improved by: Brett Zamir (http://brett-zamir.me)
+    // improved by: Theriault
+    // improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // bugfixed by: Michael White (http://getsprink.com)
+    // bugfixed by: Benjamin Lupton
+    // bugfixed by: Allan Jensen (http://www.winternet.no)
+    // bugfixed by: Howard Yeend
+    // bugfixed by: Diogo Resende
+    // bugfixed by: Rival
+    // bugfixed by: Brett Zamir (http://brett-zamir.me)
+    //  revised by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+    //  revised by: Luke Smith (http://lucassmith.name)
+    //    input by: Kheang Hok Chin (http://www.distantia.ca/)
+    //    input by: Jay Klehr
+    //    input by: Amir Habibi (http://www.residence-mixte.com/)
+    //    input by: Amirouche
+    //   example 1: number_format(1234.56);
+    //   returns 1: '1,235'
+    //   example 2: number_format(1234.56, 2, ',', ' ');
+    //   returns 2: '1 234,56'
+    //   example 3: number_format(1234.5678, 2, '.', '');
+    //   returns 3: '1234.57'
+    //   example 4: number_format(67, 2, ',', '.');
+    //   returns 4: '67,00'
+    //   example 5: number_format(1000);
+    //   returns 5: '1,000'
+    //   example 6: number_format(67.311, 2);
+    //   returns 6: '67.31'
+    //   example 7: number_format(1000.55, 1);
+    //   returns 7: '1,000.6'
+    //   example 8: number_format(67000, 5, ',', '.');
+    //   returns 8: '67.000,00000'
+    //   example 9: number_format(0.9, 0);
+    //   returns 9: '1'
+    //  example 10: number_format('1.20', 2);
+    //  returns 10: '1.20'
+    //  example 11: number_format('1.20', 4);
+    //  returns 11: '1.2000'
+    //  example 12: number_format('1.2000', 3);
+    //  returns 12: '1.200'
+    //  example 13: number_format('1 000,50', 2, '.', ' ');
+    //  returns 13: '100 050.00'
+    //  example 14: number_format(1e-8, 8, '.', '');
+    //  returns 14: '0.00000001'
+
+    number = (number + '')
+        .replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ' ' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function(n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + (Math.round(n * k) / k)
+                .toFixed(prec);
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n))
+        .split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '')
+        .length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1)
+            .join('0');
+    }
+    return s.join(dec);
+}
+
+function pmt(rate, nper, pv, fv, type) {
+    if (!fv) fv = 0;
+    if (!type) type = 0;
+
+    if (rate == 0) return -(pv + fv)/nper;
+
+    var pvif = Math.pow(1 + rate, nper);
+    var pmt = rate / (pvif - 1) * -(pv * pvif + fv);
+
+    if (type == 1) {
+        pmt /= (1 + rate);
+    }
+
+    return pmt;
+}
+
+var elem = document.getElementById('stepper'),
+    headerList = [].slice.call(elem.querySelectorAll('.step')),
+    contentList = [].slice.call(elem.querySelectorAll('.content'));
+
+var stepper = new Stepper(elem, {
+    selectors: {
+        steps: '.step',
+        trigger: '.trigger',
+        stepper: '.stepper'
+    }
+});
+
+elem.addEventListener('show.bs-stepper', function (e) {
+    var next = event.detail.indexStep,
+        current = next,
+        state = true;
+
+    if (current > 0) current--;
+
+    var content = contentList[current];
+
+    var inputs = content.querySelectorAll('input[required]');
+    inputs.forEach(function(item, index) {
+        if (!item.value.length) {
+            e.preventDefault();
+            state = false;
+        }
+    });
+
+    if (state) {
+        var header = headerList[current];
+        header.classList.add('done');
+
+        var inputs = content.querySelectorAll('input');
+        inputs.forEach(function(item, index) {
+            item.classList.add('ignore');
+        });
+
+        var $body = $(document.body);
+        window.MFAPP.setHeight($body.height());
+
+        setTimeout(function() {
+            var $body = $(document.body);
+            window.MFAPP.setHeight($body.height());
+        }, 200);
+    }
+});
+
+$(function () {
+    var tooltip = $('[data-bs-toggle="tooltip"]');
+
+    tooltip.on("click", function(e) {
+        e.preventDefault();
+        $(this).tooltip('toggle');
+    }).tooltip({
+        animation: true,
+        trigger: 'click hover focus',
+        html: true,
+    });
+
+    $('body').on('click', function(e) {
+        var $parent = $(e.target).closest('[data-bs-toggle="tooltip"]');
+        if ($parent.length) {
+            tooltip.not($parent).tooltip('hide');
+        }
+        else{
+            tooltip.tooltip('hide');
+        }
+    });
+});

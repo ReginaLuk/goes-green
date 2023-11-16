@@ -1,0 +1,198 @@
+
+
+$('document').ready(function(){
+    $('#calculator').each(function() {
+        var form = $(this);
+
+        form.find('input, select').bind('change keyup paste', function(){
+            var data = {};
+
+            /**
+             * e_ - Elektroauto
+             * i_ - Iekšdedzes dzinēja auto
+             */
+
+            // Nobraukums
+            var aptuvenais_nobraukums_gada = calc_val('aptuvenais_nobraukums_gada');
+            data.nobraukums_gada = calc_val('nobraukums_gada');
+            if (aptuvenais_nobraukums_gada != 0) data.nobraukums_gada = aptuvenais_nobraukums_gada;
+
+            // Stāvvietas izmaksas
+            var aptuvenas_stavvietas_izmaksas = calc_val('aptuvenas_stavvietas_izmaksas');
+            data.i_stavvietas_izmaksas = calc_val('i_stavvietas_izmaksas');
+            if (aptuvenas_stavvietas_izmaksas != 0) data.i_stavvietas_izmaksas = aptuvenas_stavvietas_izmaksas;
+
+            var i_stavvietas_izdevumi = data.i_stavvietas_izmaksas;
+
+            $('#i_stavvietas_izdevumi span').text(i_stavvietas_izdevumi);
+
+            // Auto cena
+            var e_auto_cena = calc_val('e_auto_cena');
+            var i_auto_cena = calc_val('i_auto_cena');
+
+            // Līzinga summa
+            var e_lizinga_summa = e_auto_cena;
+
+            // Valsts atbalsts
+            var valsts_atbalsts = 4500;
+            var izmantosu_valsts_atbalstu = calc_val('izmantosu_valsts_atbalstu');
+
+            if (izmantosu_valsts_atbalstu == 1) e_lizinga_summa = e_auto_cena - valsts_atbalsts;
+            if (e_lizinga_summa < 0) e_lizinga_summa = 0;
+
+            // CO2 izmeši
+            var i_co2 = calc_val('i_co2');
+
+            // KASKO
+            var kasko_rate = round((25000 * 0.00000092 - ((i_auto_cena - 25000) * 0.000000092 * 0.98 ** (((i_auto_cena - 25000) - 5000) / 10500))) * (i_co2 <= 130 ? 0.9 : 1), 4);
+            var ekasko_rate = round((25000 * 0.00000092 - ((e_auto_cena - 25000) * 0.000000092 * 0.98 ** (((e_auto_cena - 25000) - 5000) / 10500))) * 0.9, 4);
+
+            var i_kasko_maksajums = round(i_auto_cena * kasko_rate / 12, 0);
+            var e_kasko_maksajums = round(e_auto_cena * ekasko_rate / 12, 0);
+
+            $('#i_kakso_maksajums span').text(i_kasko_maksajums);
+            $('#e_kakso_maksajums span').text(e_kasko_maksajums);
+
+            // Līzings
+            var elizinga_likme = 0.0149; // 1.49%
+            var lizinga_likme = 0.0149; // 1.49%
+
+            if (i_co2 > 130) {
+                lizinga_likme = 0.028; // 2.8%
+            } else if (i_co2 > 95) {
+                lizinga_likme = 0.0189; // 1.89%
+            }
+
+            var iemaksa = 0.10; // 10%
+            var gadi = 5;
+            var atlikusi_vertiba = 0.30; // 30%
+
+            var i_lizinga_maksajums = round(-pmt(lizinga_likme / 12, gadi * 12, i_auto_cena - i_auto_cena * (iemaksa + atlikusi_vertiba / ((1 + lizinga_likme / 12) ** (gadi * 12)))), 0);
+            var e_lizinga_maksajums = round(-pmt(elizinga_likme / 12, gadi * 12, e_lizinga_summa - e_lizinga_summa * (iemaksa + atlikusi_vertiba / ((1 + elizinga_likme / 12) ** (gadi * 12)))), 0);
+
+            $('#i_lizinga_maksajums span').text(i_lizinga_maksajums);
+            $('#e_lizinga_maksajums span').text(e_lizinga_maksajums);
+
+            // Degviela
+            //var degvielas_cena = 1.25; // EUR/litrā
+            //var degvielas_cena = 1.90; // EUR/litrā 11.03.2022.
+	        //var degvielas_cena = 1.75; // EUR/litrā 27.09.2022 Nifty SWE-36
+
+            var i_degvielas_cena = calc_val('i_degvielas_cena'); // 07.12.2022 Nifty SWE-37
+            data.degvielas_cena = i_degvielas_cena.toFixed(2);
+
+            var i_degvielas_paterins = calc_val('i_degvielas_paterins');
+            i_degvielas_paterins = round(i_degvielas_paterins, 1);
+
+            $('#degvielas_paterins span').text(i_degvielas_paterins + 'l/100km');
+
+            var i_degvielas_izmaksas = round(data.nobraukums_gada / 100 * i_degvielas_paterins / 12 * i_degvielas_cena, 0);
+            $('#i_degvielas_izmaksas span').text(i_degvielas_izmaksas);
+
+            // Uzlāde
+            //var elektribas_cena = 0.12716; // EUR/kwh
+            //var elektribas_cena = 0.26; // EUR/kwh 11.03.2022.
+            //var stacijas_cena = 0.24; // EUR/kwh
+            //var stacijas_cena = 0.33; // EUR/kwh 11.03.2022.
+
+            //var elektribas_cena = 0.4; // SWE-36
+            //var stacijas_cena = 0.70; // SWE-36
+
+            var e_elektribas_cena = calc_val('e_elektribas_cena'); // 07.12.2022 Nifty SWE-37
+            data.elektribas_cena = e_elektribas_cena.toFixed(2);
+            var e_stacijas_cena = calc_val('e_stacijas_cena'); // 07.12.2022 Nifty SWE-37
+            data.stacijas_cena = e_stacijas_cena.toFixed(2);
+
+            var e_uzlades_vieta = calc_val('e_uzlades_vieta');
+            if (e_uzlades_vieta > 10) e_uzlades_vieta = 10;
+            if (e_uzlades_vieta < 0) e_uzlades_vieta = 0;
+
+            var faktiska_elektribas_cena = e_elektribas_cena * (10 - e_uzlades_vieta) / 10 + e_stacijas_cena * (e_uzlades_vieta) / 10;
+
+            var e_energijas_paterins = calc_val('e_energijas_paterins');
+            e_energijas_paterins = round(e_energijas_paterins, 1);
+
+            var e_uzlades_izmaksas = round(data.nobraukums_gada / 100 * e_energijas_paterins / 12 * faktiska_elektribas_cena, 0);
+            $('#e_uzlades_izmaksas span').text(e_uzlades_izmaksas);
+
+            // Ekspluatācijas nodoklis
+            var i_ekspluatacijas_nodoklis = 0;
+
+            if (i_co2 > 350) {
+                i_ekspluatacijas_nodoklis = 756;
+            } else if (i_co2 > 300) {
+                i_ekspluatacijas_nodoklis = 552;
+            } else if (i_co2 > 250) {
+                i_ekspluatacijas_nodoklis = 408;
+            } else if (i_co2 > 200) {
+                i_ekspluatacijas_nodoklis = 264;
+            } else if (i_co2 > 175) {
+                i_ekspluatacijas_nodoklis = 168;
+            } else if (i_co2 > 155) {
+                i_ekspluatacijas_nodoklis = 144;
+            } else if (i_co2 > 130) {
+                i_ekspluatacijas_nodoklis = 120;
+            } else if (i_co2 > 115) {
+                i_ekspluatacijas_nodoklis = 84;
+            } else if (i_co2 > 95) {
+                i_ekspluatacijas_nodoklis = 48;
+            } else if (i_co2 > 50) {
+                i_ekspluatacijas_nodoklis = 12;
+            }
+
+            var i_ekspluatacijas_nodoklis_menesi = round(i_ekspluatacijas_nodoklis / 12, 0);
+
+            $('#i_ekspluatacijas_nodoklis span').text(i_ekspluatacijas_nodoklis_menesi);
+
+            // Apkopes izdevumi
+            var e_apkopes_izdevumi_km = 0.003; // EUR
+            var i_apkopes_izdevumi_km = 0.01; // EUR
+            var e_apkopes_izdevumi = round(data.nobraukums_gada / 12 * e_apkopes_izdevumi_km, 0);
+            var i_apkopes_izdevumi = round(data.nobraukums_gada / 12 * i_apkopes_izdevumi_km, 0);
+
+            $('#e_apkopes_izdevumi span').text(e_apkopes_izdevumi);
+            $('#i_apkopes_izdevumi span').text(i_apkopes_izdevumi);
+
+            // Kopā
+            var e_kopa = e_lizinga_maksajums + e_kasko_maksajums + e_uzlades_izmaksas + e_apkopes_izdevumi;
+            var i_kopa = i_lizinga_maksajums + i_kasko_maksajums + i_degvielas_izmaksas + i_ekspluatacijas_nodoklis_menesi + data.i_stavvietas_izmaksas + i_apkopes_izdevumi;
+
+            $('#e_kopa span').text(e_kopa);
+            $('#i_kopa span').text(i_kopa);
+
+            calc_put(data);
+
+            var $body = $(document.body);
+            window.MFAPP.setHeight($body.height());
+        }).trigger('change');
+    });
+
+    var $body = $(document.body);
+
+    window.MFAPP.setHeight($body.height());
+
+    var debouncedResize = debounce(function() {
+        var $body = $(document.body);
+        window.MFAPP.setHeight($body.height());
+    }, 100);
+
+    window.addEventListener('resize', debouncedResize);
+
+    document.onkeydown = function(){
+        if(window.event.keyCode=='13'){
+            stepper.next()
+        }
+    }
+
+    var elektribas_cenas = document.getElementById('elektribas-cenas');
+
+    elektribas_cenas.addEventListener('hidden.bs.collapse', function () {
+        var $body = $(document.body);
+        window.MFAPP.setHeight($body.height());
+    });
+
+    elektribas_cenas.addEventListener('shown.bs.collapse', function () {
+        var $body = $(document.body);
+        window.MFAPP.setHeight($body.height());
+    });
+});

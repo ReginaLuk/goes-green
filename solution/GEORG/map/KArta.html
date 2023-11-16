@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    
+    <meta charset="utf-8" />
+
+    <title>Interactive map Liepaja:Elektrum charging station</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <style>
+
+        #map {
+
+            height: 700px;
+
+            width: 100%;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+     <h1>Elektrum charging station in Liepaja</h1>
+    <div id="map"></div>
+
+
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+
+        var map = L.map('map').setView([56.5110341, 21.0113758], 13);
+       
+
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+            maxZoom: 19,
+
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+
+        }).addTo(map);
+
+
+
+        
+
+        var chargingStation = L.marker([56.5056116, 21.0094238]).addTo(map);
+        var chargingStation2 = L.marker([56.5107946, 21.0153781]).addTo(map);
+        var chargingStation3 = L.marker([56.48417, 21.01775]).addTo(map);
+        var chargingStation4 = L.marker([56.48352, 21.02143]).addTo(map);
+        var chargingStation5 = L.marker([56.5194604, 21.0261487]).addTo(map);
+        var chargingStation6 = L.marker([56.5121740, 21.0105342]).addTo(map);
+        var chargingStation7 = L.marker([56.52292, 21.0173]).addTo(map);
+        var chargingStation8 = L.marker([56.485807, 21.006523]).addTo(map);
+        var chargingStation9 = L.marker([56.51961, 21.014746]).addTo(map);
+        var chargingStation10 = L.marker([56.503811, 21.007619]).addTo(map);
+        var chargingStation11 = L.marker([56.531738, 21.047515]).addTo(map);
+        var chargingStation12 = L.marker([56.50156, 21.00734]).addTo(map);
+        var chargingStation13 = L.marker([56.5053537, 21.0100459]).addTo(map);
+        var chargingStation14 = L.marker([56.5481633, 21.0491860    ]).addTo(map);
+     
+
+        
+
+       
+
+        chargingStation.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, 10 Peldu iela");
+        chargingStation2.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Jāņa iela 1A");
+        chargingStation3.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Mirdzas Ķempes iela 3");
+        chargingStation4.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Ugāles iela 6T");
+        chargingStation5.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Parka iela 21");
+        chargingStation6.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Jūras iela 16");
+        chargingStation7.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Rīgas iela 56");
+        chargingStation8.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Klaipēdas iela 81");
+        chargingStation9.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, 4/6 Autoru iela ");
+        chargingStation10.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, 12 Kuršu iela");
+        chargingStation11.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, 148 A9");
+        chargingStation12.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Kuršu iela 32");
+        chargingStation13.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Peldu iela 5");
+        chargingStation14.bindPopup("<b>Elektrum charging station</b><br>Adress: Liepaja, Cukura iela 29");
+      
+        
+
+
+
+      
+
+
+
+    </script>
+
+</body>
+
+</html>

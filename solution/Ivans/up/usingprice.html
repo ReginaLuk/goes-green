@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expensive or cheap?</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<style>
+    #button1{
+        margin: 0 auto;
+        display:block;
+
+
+    }
+    body{
+        background-color: black;
+        color: beige;
+    }
+    h1{
+        text-align: center;
+    }
+    #text{
+        margin: 60px 400px;
+        
+    }
+    h2{
+        text-align: center;
+    }
+    p{
+        font-size: large;
+    }
+    .container {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 4px;
+        background-color: darkgray;
+        border-radius: 5px;
+        max-width: 350px;
+        padding-bottom: 100px;
+        padding: 10px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .item {
+        text-align: center;
+        background-color: gray;
+        color: whitesmoke;
+        padding: 15px;
+        justify-content: center;
+        align-items: center;
+        font-size: 23px;
+        cursor: pointer;
+        font-weight: bold;
+        
+    }
+
+    form {
+        width: 100%;
+        border: 1px;
+    }
+
+    .inpucalculator {
+        width: 100%;
+        height: 60px;
+        border: none;
+        font-size: 30px;
+        text-align: right;
+        outline: none;
+    }
+
+    .input {
+        grid-column: 1/-1;
+        padding: 0
+    }
+
+    .clear {
+        grid-column: 1/3;
+        background-color: rgb(99, 99, 99);
+    }
+
+    .back {
+        grid-column: 3/-1;
+        background-color: rgb(99, 99, 99);
+    }
+
+    .equal {
+        grid-column: 4;
+        grid-row: 6/8;
+        text-align: center;
+
+    }
+
+    .zero {
+        grid-column: 1/3;
+    }
+    #demo{
+        color: whitesmoke;
+    }
+    
+    #myform{
+        text-align: center;
+
+    }
+    
+
+    
+</style>
+</head>
+<body>
+    <h1>Is an electric car expensive or normal?</h1>
+    <h1>The expert calculated the costs</h1>
+    <div id="text">
+
+        <h5>The approximate economics of owning an electric car include costs for “fuel”, maintenance and replacement of consumable parts (brakes, rims, tires, etc.)</h5>
+    
+        <h2>The process has started</h2>
+        <p>Until now, we've looked at electric cars mostly as expensive toys for eccentric weirdos. The perspective is changing: by 2030, there will be 150 thousand charging stations in the world (20 thousand by 2024), and the share of sales of electric vehicles should increase from today’s 0.1% to 15%.<p>
+        <center><img src="tesla-roadster_large.jpg" alt="tesla" width="750" height="400"></center>
+        <p>This is not just another project invented to absorb billions, but a necessary measure. The global trend is that soon everyone will have to pay for their carbon footprint. Therefore, Europe decided to abandon internal combustion engines and produce only electric vehicles.</p>
+        <h2>The good and the bad</h2>
+        <p>The purchase of electric cars in Latvia is already being stimulated - with a date for the purchase of new cars (4,500 euros) and free parking.</p>
+        <center><img src="Снимок экрана 2023-10-24 144409.png" alt="map" ></center>
+        <h2>Minuses</h2>
+        <p>The main drawback was and will remain the long charging time.</p>
+        <h2>Maintenance costs</h2>
+        <p>Experts from the US Department of Energy have calculated that the cost of servicing electric cars is 40% lower. Due to what?</p>
+        <p>
+Let's compare the expenses for the Mercedes-Benz EQC electric car and the Mercedes-Benz GLC gasoline car per 100 kilometers, taking into account all the specified costs and the cost of charging or refueling:
+
+
+</p>
+<h3>**Expenses for the Mercedes-Benz EQC electric car per 100 km:**</h3>
+<ul>
+    <li>Charging: 43 euros per 100 kWh</li>
+    <li>Electricity consumption: 8 euros per 100 km</li>
+    <li>Winter tires: 82 euros</li>
+    <li>Brake discs: 93 euros</li>
+    <li>Filter replacement: 25 euros</li>
+</ul>
+<h3>**Expenses for the Mercedes-Benz GLC gasoline car per 100 km:**
+</h3>
+<ul>
+    <li> Refueling: 155 euros per full tank. Gasoline consumption: 18 euros per 100 km</li>
+    <li>Oil change: 4 euros</li>
+    <li>Winter tires: 90 euros</li>
+    <li>Spark plug replacement: 15 euros</li>
+    <li>Antifreeze replacement: 11 euros</li>
+    <li>Filter replacement: 35 euros</li>
+</ul>
+    
+   <button type="button" id="button1" class="btn btn-light">Let's calculate all expenses and write the answer in the text field</button>
+    
+    
+    
+    
+    </div>
+    <div class="container">
+
+        <div class="item input">
+            <form name="form">
+                <input type="text" name="metka" class="inputcalculator">
+            </form>
+        </div>
+        <div class="item clear" onclick="clean()">C</div>
+        <div class="item back" onclick="back()">&larr;</div>
+        <div class="item" onclick="insert('+')">+</div>
+        <div class="item" onclick="insert('-')">-</div>
+        <div class="item" onclick="insert('*')">&times;</div>
+        <div class="item" onclick="insert('/')">&divide;</div>
+        <div class="item" onclick="insert('7')">7</div>
+        <div class="item" onclick="insert('8')">8</div>
+        <div class="item" onclick="insert('9')">9</div>
+        <div class="item" onclick="insert(')')">)</div>
+        <div class="item" onclick="insert('4')">4</div>
+        <div class="item" onclick="insert('5')">5</div>
+        <div class="item" onclick="insert('6')">6</div>
+        <div class="item" onclick="insert('(')">(</div>
+        <div class="item" onclick="insert('1')">1</div>
+        <div class="item" onclick="insert('2')">2</div>
+        <div class="item" onclick="insert('3')">3</div>
+        <div class="item equal" onclick="equal()">=</div>
+        <div class="item zero" onclick="insert('0')">0</div>
+        <div class="item" onclick="insert('.')">.</div>
+    
+    </div>
+    <script>
+        function insert(lable) {
+            document.form.metka.value = document.form.metka.value + lable;
+        }
+
+        function clean() {
+            document.form.metka.value = "";
+        }
+
+        function back() {
+            var exp = document.form.metka.value;
+            document.form.metka.value = exp.substring(0, exp.length - 1);
+        }
+
+        function equal() {
+            var exp = document.form.metka.value;
+            if (exp != '') {
+                document.form.metka.value = eval(exp);
+            }
+        }
+    </script>
+<div id="myform">
+    <p>For electrocar</p>
+   <div id="answer">
+     <input id="id1">
+     <button onclick="electrocar()">OK</button>
+    
+    
+     <p id="demo"></p>
+    
+     <script>
+         function electrocar() {
+ 
+         let x = document.getElementById("id1").value;
+ 
+         let text;
+         if (isNaN(x) || x != 243 ) { 
+         text = "Worse answer";
+         } else {
+         text = "Correct answer ";
+         }
+         document.getElementById("demo").innerHTML = text;
+         }
+     </script>
+    </div>
+     <p>For petrolcar</p>
+    <div id="answer">
+     <input id="id2" >
+     <button onclick="petrolcar()">OK</button>
+    
+    
+     <p id="demo2"></p>
+    
+     <script>
+        function petrolcar() {
+ 
+        let x = document.getElementById("id2").value;
+
+        let text;
+        if (isNaN(x) || x != 310 ) { 
+        text = "Worse answer";
+        } else {
+        text = "Correct answer ";
+        }
+        document.getElementById("demo2").innerHTML = text;
+        }
+      </script>
+    </div>
+</div>
+    
+
+
+</body>
+</html>

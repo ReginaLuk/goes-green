@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://riki.manasfinanses.lv/kalkulatori/auto/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Car usage expenses calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body style="background-color: gray;">
+
+<div id="calculator" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div id="stepper" class="bs-stepper stepper linear">
+                    <div style="background-color: grey;" class="header">
+                        <div  class="row justify-content-center">
+                            <div  class="col-11 col-md-10">
+                                <div  class="step-list">
+                                    <div class="step active" data-target="#step-mileage">
+                                        <button type="button" class="btn trigger" aria-selected="true">
+                                            <span class="circle">1</span>
+                                            <span class="label">Mileage</span>
+                                        </button>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="step" data-target="#step-parking">
+                                        <button type="button" class="btn trigger" aria-selected="false" disabled="disabled">
+                                            <span class="circle">2</span>
+                                            <span class="label">Parking space</span>
+                                        </button>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="step" data-target="#step-result">
+                                        <button type="button" class="btn trigger" aria-selected="false" disabled="disabled">
+                                            <span class="circle">3</span>
+                                            <span class="label">Calculations</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-10">
+                            <div id="step-mileage" class="content active dstepper-block">
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-sm-9 mb-3 mb-sm-0">
+                                        <label for="aptuvenais_nobraukums_gada" class="label-xl">Approximately how many km do you drive during the year?</label>
+                                    </div>
+                                    <div class="col-12 col-sm-3">
+                                        <input type="number" name="aptuvenais_nobraukums_gada" id="aptuvenais_nobraukums_gada" class="form-control wcalc-aptuvenais_nobraukums_gada" required="required">
+                                    </div>
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                    <div class="col-12 text-end">
+                                        <a class="btn btn-primary d-block d-sm-inline-block" onclick="stepper.next()">Next</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="step-parking" class="content">
+                                <div class="row align-items-start">
+                                    <div class="col-12 col-sm-9 mb-3 mb-sm-0">
+                                        <label for="aptuvenas_stavvietas_izmaksas" class="label-xl">How much EUR per month does it cost you to park your car in Rīgas Satiksme parking lots? If you could replace other parking spaces with Rīgas Satiksme parking spaces, add those expenses as well.</label>
+                                    </div>
+                                    <div class="col-12 col-sm-3">
+                                        <input type="number" name="aptuvenas_stavvietas_izmaksas" id="aptuvenas_stavvietas_izmaksas" class="form-control wcalc-aptuvenas_stavvietas_izmaksas" required="required" value="0">
+                                    </div>
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                    <div class="col-12 text-end">
+                                        <a class="btn btn-primary d-block d-sm-inline-block" onclick="stepper.next()">Next</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="step-result" class="content">
+                                <div class="row align-items-start">
+                                    <div class="col-12 col-sm-8">
+                                    </div>
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="row align-items-end mb-3">
+                                    <div class="col-12 col-sm-6"></div>
+                                    <div class="col-6 col-sm"><b><small>Electrocar</small></b></div>
+                                    <div class="col-6 col-sm"><b><small>A car with an internal combustion engine</small></b></div>
+                                </div>
+                                <div class="row align-items-center mb-5">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="e_auto_cena">Car price</label></div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" name="e_auto_cena" id="e_auto_cena" class="form-control wcalc-e_auto_cena" required="required" value="35000">
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" name="i_auto_cena" id="i_auto_cena" class="form-control wcalc-i_auto_cena" required="required" value="26000">
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="nobraukums_gada">Average mileage per year, km</label></div>
+                                    <div class="col-12 col-sm">
+                                        <input type="number" name="nobraukums_gada" id="nobraukums_gada" class="form-control wcalc-nobraukums_gada" required="required">
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="i_co2">CO2 emissions for the internal combustion engine, g/km, WLTP</label></div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" class="form-control" disabled="disabled">
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" name="i_co2" id="i_co2" class="form-control wcalc-i_co2" required="required" value="130">
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="i_stavvietas_izmaksas">Rīgas Satiksme parking costs per month, EUR</label></div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" class="form-control disabled" disabled="disabled">
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" name="i_stavvietas_izmaksas" id="i_stavvietas_izmaksas" class="form-control wcalc-i_stavvietas_izmaksas" required="required">
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0">
+                                        <label for="i_degvielas_paterins">Estimated average fuel consumption (l/100km)</label>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" class="form-control disabled" disabled="disabled">
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" name="i_degvielas_paterins" id="i_degvielas_paterins" class="form-control wcalc-i_degvielas_paterins" required="required" value="5.5">
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="i_degvielas_cena">Fuel price (EUR/liter)</label></div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" class="form-control disabled" disabled="disabled">
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" name="i_degvielas_cena" id="i_degvielas_cena" class="form-control wcalc-i_degvielas_cena" required="required" value="1.75">
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="e_energijas_paterins">Estimated average consumption of electric car energy (kWh/100km)</label></div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" name="e_energijas_paterins" id="e_energijas_paterins" class="form-control wcalc-e_energijas_paterins" required="required" value="14.5">
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <input type="number" class="form-control disabled" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0">
+                                        <label for="e_uzlades_vieta">Charging location (home charging vs public charging station)</label>
+                                    </div>
+                                    <div class="col-12 col-sm">
+                                        <input type="range" class="form-range wcalc-e_uzlades_vieta" min="0" max="10" step="1" id="e_uzlades_vieta" value="5">
+                                        <div class="row form-range-labels">
+                                            <div class="col-6">
+                                                <label for="e_uzlades_vieta">
+                                                    <b>Home network</b>
+                                                    <div class="mt-1"><span class="wcalc-elektribas_cena">0.40</span> EUR/kWh</div>
+                                                </label>
+                                            </div>
+                                            <div class="col-6 text-end">
+                                                <label for="e_uzlades_vieta">
+                                                    <b>Charging stations</b>
+                                                    <div class="mt-1"><span class="wcalc-stacijas_cena">0.70</span> EUR/kWh</div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="collapse" id="elektribas-cenas">
+                                            <div class="row align-items-center pb-5">
+                                                <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="e_elektribas_cena">Home electricity price (EUR/kWh)</label></div>
+                                                <div class="col-6 col-sm">
+                                                    <input type="number" name="e_elektribas_cena" id="e_elektribas_cena" class="form-control wcalc-e_elektribas_cena" required="required" value="0.40">
+                                                </div>
+                                                <div class="col-6 col-sm">
+                                                    <input type="number" class="form-control disabled" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="row align-items-center pb-5">
+                                                <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="e_stacijas_cena">Charging station electricity price (EUR/kWh)</label></div>
+                                                <div class="col-6 col-sm">
+                                                    <input type="number" name="e_stacijas_cena" id="e_stacijas_cena" class="form-control wcalc-e_stacijas_cena" required="required" value="0.70">
+                                                </div>
+                                                <div class="col-6 col-sm">
+                                                    <input type="number" class="form-control disabled" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="izmantosu_valsts_atbalstu">I will use State aid for the purchase of an electric car in the amount of 4,500 euros</label></div>
+                                    <div class="col-12 col-sm">
+                                        <div class="form-check">
+                                            <input class="form-check-input wcalc-izmantosu_valsts_atbalstu" type="checkbox" name="izmantosu_valsts_atbalstu" value="1" id="izmantosu_valsts_atbalstu">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-start mt-7">
+                                    <div class="col-12 col-sm-8">
+                                        <label for="" class="label-xl">Calculations</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="row align-items-end mb-3">
+                                    <div class="col-12 col-sm-6"></div>
+                                    <div class="col-6 col-sm"><b><small>Electrocar</small></b></div>
+                                    <div class="col-6 col-sm"><b><small>A car with an internal combustion engine</small></b></div>
+                                </div>
+                                <div class="row align-items-center mb-5 mb-sm-2">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="">Monthly lease payment</label></div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="e_lizinga_maksajums"><span>376</span> EUR</div>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="i_lizinga_maksajums"><span>285</span> EUR</div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5 mb-sm-2">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="">KASKO monthly payment</label></div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="e_kakso_maksajums"><span>58</span> EUR</div>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="i_kakso_maksajums"><span>45</span> EUR</div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5 mb-sm-2">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="" id="degvielas_paterins">Average monthly fuel costs (<span>5.5l/100km</span>)</label></div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value disabled"></div>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="i_degvielas_izmaksas"><span>0</span> EUR</div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5 mb-sm-2">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="">Charging costs on average per month</label></div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="e_uzlades_izmaksas"><span>0</span> EUR</div>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value disabled"></div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5 mb-sm-2">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="">Vehicle operating tax per month</label></div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value">-</div>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="i_ekspluatacijas_nodoklis"><span>7</span> EUR</div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5 mb-sm-2">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="">Parking expenses</label></div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value">-</div>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="i_stavvietas_izdevumi"><span>0</span> EUR</div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5 mb-sm-2">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for="">Average monthly car maintenance expenses<sup>*</sup></label></div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="e_apkopes_izdevumi"><span>0</span> EUR</div>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value" id="i_apkopes_izdevumi"><span>0</span> EUR</div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-5 mb-sm-2">
+                                    <div class="col-12 col-sm-6 mb-1 mb-sm-0"><label for=""><b>Total, EUR</b></label></div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value result" id="e_kopa"><span>434</span> EUR</div>
+                                    </div>
+                                    <div class="col-6 col-sm">
+                                        <div class="value result" id="i_kopa"><span>337</span> EUR</div>
+                                    </div>
+</div>
+
+                               
+
+<script src="./jquery.min.js.загрузка"></script>
+<script src="./bs-stepper.min.js.загрузка"></script>
+<script src="./popper.min.js.загрузка"></script>
+<script src="./bootstrap.bundle.min.js.загрузка"></script>
+<script src="./functions.js.загрузка"></script>
+<script src="./main.js.загрузка"></script>
+
+
+</body></html>

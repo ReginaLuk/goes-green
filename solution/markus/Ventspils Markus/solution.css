@@ -1,0 +1,98 @@
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 50px 50px 0 50px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  min-height: 95vh;
+  color:whitesmoke
+}
+.main {
+  flex: 1;
+}
+
+h1 {
+  font-size: 2rem;
+  color: coral;
+  text-align: center;
+}
+
+footer {
+  text-align: right;
+  color: midnightblue;
+}
+
+.tile-image {
+  height: 200px;
+  float: left;
+  margin-right: 50px;
+}
+
+.card {
+  width: 45%;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.creative {
+  color: midnightblue;
+}
+
+.card-title {
+  color:whitesmoke;
+}
+
+b {
+  color: coral;
+}
+
+#citata {
+  border-left: 5px solid #257886;
+  padding-left: 50px;
+  padding-right: 100px;
+}
+
+.bmw_i3 {
+  height: 500px;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.calculator {
+  text-align: center;
+}
+@media (max-width: 680px) {
+  .logo {
+    width: 100px;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    text-align: center;
+  }
+
+  .card {
+    width: 100%;
+    display: block;
+    margin-bottom: 30px;
+    text-align: justify;
+  }
+
+  .card img {
+    margin-bottom: 10px;
+    width: 100%;
+    display: inline;
+    object-fit: cover;
+  }
+
+  a {
+    color: black;
+  } 
+}
